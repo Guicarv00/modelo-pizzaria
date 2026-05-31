@@ -51,7 +51,7 @@ const MENU_ITEMS = [
         description: 'Receita original de Nápoles: molho San Marzano, anchovas do Mediterrâneo em azeite, alcaparras de Pantelleria, azeitonas pretas e orégano siciliano.',
         basePrice: 65,
         category: 'tradicionais',
-        image: './napolitana.jpg',
+        image: './img/napolitana.jpg',
         tags: ['Autêntica']
     },
     {
@@ -270,7 +270,7 @@ function renderMenu() {
         ` : '';
 
         return `
-            <div class="rounded-3xl overflow-hidden bg-black/40 border border-white/5 shadow-inner hover:border-accent/20 transition-all duration-300 flex flex-col justify-between" style="opacity: 0; transform: translateY(15px); animation: fadeIn 0.4s ease forwards;">
+            <div onclick="openProductModal('${item.id}')" class="rounded-3xl overflow-hidden bg-black/40 border border-white/5 shadow-inner hover:border-accent/20 transition-all duration-300 flex flex-col justify-between cursor-pointer" style="opacity: 0; transform: translateY(15px); animation: fadeIn 0.4s ease forwards;">
                 <div class="relative h-48 sm:h-56 overflow-hidden">
                     <img src="${item.image}" alt="${escapeHtml(item.name)}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" loading="lazy">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
@@ -287,7 +287,7 @@ function renderMenu() {
                             <span class="text-[10px] text-muted block uppercase tracking-wider">a partir de</span>
                             <span class="text-lg font-bold text-white font-mono">R$ ${item.basePrice}</span>
                         </div>
-                        <button onclick="openProductModal('${item.id}')" class="bg-white hover:bg-accent text-black px-4 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition flex items-center gap-1 active:scale-95">
+                        <button onclick="event.stopPropagation(); openProductModal('${item.id}')" class="bg-white hover:bg-accent text-black px-4 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition flex items-center gap-1 active:scale-95">
                             <i data-lucide="plus" style="width: 14px; height: 14px; stroke-width: 2.5px;"></i>
                             <span>Adicionar</span>
                         </button>
