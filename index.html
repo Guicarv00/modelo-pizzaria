@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ========================================== -->
+    <!-- ALTERE AQUI: Nome da Empresa e Descrição -->
+    <!-- ========================================== -->
+    <title>Pizaria Elite | A Experiência Suprema</title>
+    <meta name="description" content="Pizzaria Premium com massa de fermentação lenta de 48h, ingredientes nobres e entrega expressa.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons (CDN para carregar ícones puros de forma limpa) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS (CDN para evitar necessidade de Node/npm build) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP (Para animações de alta performance) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Tailwind Configuração de Tema -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // ==========================================
+                        // ALTERE AQUI: Cores Principais da Marca
+                        // ==========================================
+                        dark: '#050505',      // Fundo escuro absoluto (Luxury)
+                        card: '#0a0a0a',      // Fundo dos cartões e caixas
+                        accent: '#D4AF37',    // Cor Dourada Premium (Mude para alterar todo o destaque do site)
+                        muted: '#a1a1aa'      // Cor de texto secundária/cinza
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Folha de estilo personalizada (style.css contendo efeitos glassmorphism e animações) -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body class="bg-dark text-white font-sans selection:bg-accent selection:text-black min-h-screen">
+
+    <!-- HEADER (Barra de Navegação Fina de Vidro) -->
+    <header class="fixed top-0 w-full z-40 px-4 md:px-6 py-4">
+        <nav id="navbar" class="max-w-7xl mx-auto flex justify-between items-center glass rounded-full px-6 md:px-8 py-4 transition-all duration-300">
+            
+            <!-- ALTERE AQUI: Logo / Nome da Empresa -->
+            <a href="#" class="text-xl md:text-2xl font-display font-bold tracking-tighter">
+                PIZZARIA<span class="text-accent">ELITE</span>
+            </a>
+            
+            <!-- Links de navegação interna -->
+            <div class="hidden md:flex gap-8 text-xs lg:text-sm font-medium tracking-wide">
+                <a href="#differentials" class="hover:text-accent transition text-white/80">Diferenciais</a>
+                <a href="#menu" class="hover:text-accent transition text-white/80">Cardápio</a>
+                <a href="#about" class="hover:text-accent transition text-white/80">Nossa História</a>
+                <a href="#reviews" class="hover:text-accent transition text-white/80">Opiniões</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <!-- Botão Flutuante de Sacola (Indica quantidade de itens) -->
+                <button id="cart-nav-btn" class="relative p-2.5 hover:bg-white/5 rounded-full text-white transition flex items-center justify-center" aria-label="Abrir sacola de compras">
+                    <i data-lucide="shopping-bag" class="hover:text-accent transition"></i>
+                    <span id="cart-counter" class="absolute -top-1.5 -right-1.5 bg-accent text-black text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+                </button>
+
+                <!-- ALTERE AQUI: Número / Botão de Pedido Direto -->
+                <button onclick="toggleCartDrawer()" class="bg-white text-black px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-bold hover:bg-accent hover:text-white transition-all duration-300">
+                    PEDIR AGORA
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <!-- ALTERE AQUI: Imagem de fundo do Hero -->
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=2000" 
+                 alt="Pizza de longa fermentação" 
+                 id="hero-img"
+                 class="w-full h-full object-cover opacity-50 scale-100 transition-transform duration-[20s] ease-out">
+            <div class="absolute inset-0 hero-gradient"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <!-- ALTERE AQUI: Textos Principais do Banner -->
+            <span class="inline-block text-accent font-medium tracking-[0.3em] mb-4 text-xs md:text-sm uppercase tracking-widest">
+                👑 EXCELÊNCIA EM CADA FATIA
+            </span>
+            <h1 class="text-4xl sm:text-6xl md:text-8xl font-display font-bold leading-none mb-6">
+                A Arte da Pizza <br>
+                <span class="italic font-light text-accent">Elevada ao Topo</span>
+            </h1>
+            <p class="text-sm sm:text-base md:text-lg text-muted mb-10 max-w-2xl mx-auto text-balance">
+                Ingredientes suntuosos importados, fermentação lenta natural de 48 horas e a logística de entrega expressa premium mais confiável da cidade. Sinta o supremo sabor rústico no conforto de sua casa.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#menu" class="w-full sm:w-auto bg-accent text-black px-8 py-3.5 rounded-full font-bold text-sm tracking-wider uppercase hover:scale-105 transition-transform shadow-lg shadow-accent/20 text-center">
+                    Explorar Cardápio
+                </a>
+                <button onclick="toggleCartDrawer()" class="w-full sm:w-auto glass px-8 py-3.5 rounded-full font-bold text-sm tracking-wider uppercase hover:bg-white/10 transition-all text-center text-white">
+                    Montar Pedido via WhatsApp
+                </button>
+            </div>
+        </div>
+
+        <!-- Indicador de Scroll -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-xs text-muted/60">
+            <span>Role para explorar</span>
+            <div class="w-1 h-3 bg-accent/60 rounded animate-bounce"></div>
+        </div>
+    </section>
+
+    <!-- INFINITE MARQUEE (Texto Corrido de Autoridade) -->
+    <section class="py-8 border-y border-white/5 bg-black/95 overflow-hidden select-none">
+        <!-- ALTERE AQUI: Palavras do Letreiro Infinito -->
+        <div class="flex gap-12 whitespace-nowrap overflow-hidden">
+            <div class="marquee-wrapper flex shrink-0 gap-16 text-sm sm:text-base md:text-lg font-display italic text-white/30 uppercase tracking-widest">
+                <span>⭐ INGREDIENTES PREMIUM IMPORTADOS</span>
+                <span>•</span>
+                <span>⏱️ ENTREGA EXPRESSA EM 30 MINUTOS</span>
+                <span>•</span>
+                <span>🍞 MASSA ARTESANAL DE 48H DE FERMENTAÇÃO</span>
+                <span>•</span>
+                <span>🔥 ASSADO EM FORNO DE PEDRA VULCÂNICA</span>
+                <span>•</span>
+                <span>🥂 QUALIDADE SUPREMA ELITE</span>
+                <span>•</span>
+                <span>🤵 ATENDIMENTO VIP CONCIERGE</span>
+            </div>
+            <!-- Duplicado para loop infinito fluído -->
+            <div class="marquee-wrapper flex shrink-0 gap-16 text-sm sm:text-base md:text-lg font-display italic text-white/30 uppercase tracking-widest" aria-hidden="true">
+                <span>⭐ INGREDIENTES PREMIUM IMPORTADOS</span>
+                <span>•</span>
+                <span>⏱️ ENTREGA EXPRESSA EM 30 MINUTOS</span>
+                <span>•</span>
+                <span>🍞 MASSA ARTESANAL DE 48H DE FERMENTAÇÃO</span>
+                <span>•</span>
+                <span>🔥 ASSADO EM FORNO DE PEDRA VULCÂNICA</span>
+                <span>•</span>
+                <span>🥂 QUALIDADE SUPREMA ELITE</span>
+                <span>•</span>
+                <span>🤵 ATENDIMENTO VIP CONCIERGE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIFERENCIAIS (BENTO GRID - Luxo e Detalhes) -->
+    <section id="differentials" class="py-24 px-4 md:px-6 max-w-7xl mx-auto scroll-mt-20">
+        <div class="mb-14 text-center md:text-left">
+            <span class="text-xs font-bold uppercase text-accent tracking-widest block mb-2">excelência absoluta</span>
+            
+            <!-- ALTERE AQUI: Títulos de Autoridade -->
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-display font-semibold tracking-tight">
+                Por que escolher a Elite?
+            </h2>
+            <p class="text-sm md:text-base text-muted mt-3 max-w-xl">
+                Elevamos o padrão da entrega de pizzas. Não é apenas comida aquecida numa embalagem, é uma consagrada experiência gastronômica requintada de luxo entregue com absoluta precisão.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[240px]">
+            <!-- Card 1: Ingredientes Nobres -->
+            <div class="bento-card md:col-span-2 md:row-span-2 rounded-3xl overflow-hidden relative group p-6 md:p-8 flex flex-col justify-end">
+                <!-- ALTERE AQUI: Imagem do Bloco de Ingredientes -->
+                <img src="https://images.unsplash.com/photo-1555072956-7758afb20e8f?auto=format&fit=crop&q=80&w=800" 
+                     class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-105 transition-transform duration-700" 
+                     alt="Farinhas e queijos finos">
+                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80"></div>
+                <div class="relative z-10">
+                    <span class="text-accent text-[10px] font-bold uppercase tracking-wider bg-accent/10 px-2.5 py-1 rounded-full mb-3 inline-block">
+                        Curadoria Rígida
+                    </span>
+                    <h3 class="text-xl md:text-2xl font-bold mb-2">Ingredientes Frescos & Nobres</h3>
+                    <p class="text-xs md:text-sm text-muted leading-relaxed">
+                        Selecionamos diariamente do campo a farinha italiana Tipo 00, o queijo fior di latte fresco certificado e os clássicos tomates colhidos do vulcânico solo de San Marzano.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 2: Entrega Rápida Express -->
+            <div class="bento-card md:col-span-2 rounded-3xl p-6 md:p-8 flex items-center justify-between group overflow-hidden relative">
+                <div class="max-w-[70%] z-10">
+                    <span class="text-accent text-[10px] font-bold uppercase tracking-wider block mb-1">
+                        Logística Inteligente
+                    </span>
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Rota Express Hot-Box</h3>
+                    <p class="text-xs text-muted">
+                        Mochilas estruturadas com placas térmicas ativas infravermelhas de última geração. Garantia de borda crocante e queijo derretendo.
+                    </p>
+                </div>
+                <div class="text-5xl md:text-7xl text-accent/10 font-bold font-mono group-hover:text-accent/20 transition-colors tracking-tighter z-0 select-none">
+                    30'
+                </div>
+            </div>
+
+            <!-- Card 3: WhatsApp Click Conveniência -->
+            <div onclick="toggleCartDrawer()" class="bento-card rounded-3xl p-6 flex flex-col justify-between hover:bg-emerald-950/20 transition-all cursor-pointer group">
+                <div class="bg-emerald-500/25 w-11 h-11 rounded-full flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500 group-hover:text-black transition-all">
+                    <i data-lucide="message-square"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-sm md:text-base">Peça sem Complicação</h3>
+                    <p class="text-xs text-muted mt-1">Converse com nossa equipe e monte todo seu pedido personalizado via WhatsApp rapidamente.</p>
+                </div>
+            </div>
+
+            <!-- Card 4: Variedade do Cardápio -->
+            <div class="bento-card rounded-3xl p-6 flex flex-col justify-between overflow-hidden group relative">
+                <div class="relative z-10">
+                    <h3 class="font-bold text-sm md:text-base">Massa Perfeita 48h</h3>
+                    <p class="text-xs text-muted mt-1">Nossa massa especial descansada que desmancha no primeiro pedaço.</p>
+                </div>
+                <div class="absolute -bottom-6 -right-6 opacity-10 group-hover:opacity-20 transition-all duration-500 scale-100 group-hover:scale-110">
+                    <!-- ALTERE AQUI: Imagem do fundo pequeno de variedade -->
+                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbad80ad38?auto=format&fit=crop&q=80&w=300" class="w-32 h-32 rounded-full" alt="Mini pizza decorativa">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO CARDÁPIO INTERATIVO -->
+    <section id="menu" class="py-24 bg-card/60 border-y border-white/5 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="text-center max-w-xl mx-auto mb-14">
+                <span class="text-xs font-bold uppercase text-accent tracking-widest block mb-2">Maestria Gastronômica</span>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-display font-semibold tracking-tight italic">
+                    Selecione sua Experiência
+                </h2>
+                <p class="text-sm text-muted mt-2">
+                    Clique em qualquer item para customizar o tamanho, tipo de massa, bordas especiais recheadas gourmets e adicionar à sacola de checkout.
+                </p>
+            </div>
+
+            <!-- Tabs de Categorias Dinâmicas -->
+            <div class="flex flex-wrap justify-center gap-2 mb-12" id="category-tabs">
+                <button onclick="filterMenu('tradicionais')" class="px-5 py-2.5 rounded-full text-xs md:text-sm font-semibold tracking-wide transition-all bg-accent text-black shadow-lg" data-category="tradicionais">
+                    🍕 Tradicionais
+                </button>
+                <button onclick="filterMenu('especiais')" class="px-5 py-2.5 rounded-full text-xs md:text-sm font-semibold tracking-wide transition-all bg-white/5 text-muted hover:bg-white/10 hover:text-white" data-category="especiais">
+                    ✨ Especiais de Assinatura
+                </button>
+                <button onclick="filterMenu('doces')" class="px-5 py-2.5 rounded-full text-xs md:text-sm font-semibold tracking-wide transition-all bg-white/5 text-muted hover:bg-white/10 hover:text-white" data-category="doces">
+                    🍫 Sobremesas
+                </button>
+                <button onclick="filterMenu('bebidas')" class="px-5 py-2.5 rounded-full text-xs md:text-sm font-semibold tracking-wide transition-all bg-white/5 text-muted hover:bg-white/10 hover:text-white" data-category="bebidas">
+                    🍷 Bebidas & Vinhas
+                </button>
+            </div>
+
+            <!-- Grid de Produtos Dinâmicos (Preenchidos pelo JavaScript) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="products-grid">
+                <!-- Injetado por JS de forma dinâmica com efeito de fade animado -->
+            </div>
+        </div>
+    </section>
+
+    <!-- HISTÓRIA E ESSÊNCIA (SOBRE) -->
+    <section id="about" class="py-24 bg-card scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+            
+            <div class="relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-accent to-amber-600 rounded-[2.2rem] blur opacity-15"></div>
+                <!-- ALTERE AQUI: Imagem do Chef / Cozinha -->
+                <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?auto=format&fit=crop&q=80&w=1000" 
+                     class="relative rounded-[2rem] shadow-2xl border border-white/5 filter brightness-95 object-cover w-full h-[400px]" 
+                     alt="Chef italiano moldando pizza">
+                
+                <!-- Badge de dados rústico -->
+                <div class="absolute -bottom-6 -right-6 glass rounded-2xl p-4 border border-white/10 hidden sm:flex items-center gap-4">
+                    <div class="text-3xl font-display text-accent font-bold">48h</div>
+                    <div class="text-xs text-muted leading-tight uppercase font-medium">
+                        Lenta maturação <br>
+                        fácil digestão
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <span class="text-accent font-bold tracking-widest text-xs uppercase block">Nossa Essência</span>
+                
+                <!-- ALTERE AQUI: Texto institucional de história -->
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-display font-semibold italic text-white">
+                    Onde o fogo encontra a perfeição suntuosa.
+                </h2>
+                <p class="text-sm md:text-base text-muted leading-relaxed">
+                    Nascida da consagração absoluta pela tradicional gastronomia de Nápoles e pela agitação urbana refinada brasileira, a Pizzaria Elite não aceita atalhos comerciais. Nossa massa especial de farinha italiana descansa por pelo menos 48 horas inteiras, promovendo uma leveza aerada impecável que realça os sabores mais nobres de cada cobertura.
+                </p>
+                
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm">
+                    <li class="flex items-center gap-2.5">
+                        <span class="w-1.5 h-1.5 bg-accent rounded-full shrink-0"></span>
+                        <span class="text-white/85 font-medium">Farinha Tipo 00 Importada da Itália</span>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <span class="w-1.5 h-1.5 bg-accent rounded-full shrink-0"></span>
+                        <span class="text-white/85 font-medium">Molho San Marzano Puro</span>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <span class="w-1.5 h-1.5 bg-accent rounded-full shrink-0"></span>
+                        <span class="text-white/85 font-medium">Forno Tecnológico de Pedra Refratária</span>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <span class="w-1.5 h-1.5 bg-accent rounded-full shrink-0"></span>
+                        <span class="text-white/85 font-medium">Azeites de Oliva Aromatizados</span>
+                    </li>
+                </ul>
+
+                <!-- ALTERE AQUI: Endereço e Horários da Empresa -->
+                <div class="pt-4 flex flex-wrap gap-y-3 gap-x-6 text-xs text-muted">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="clock" class="text-accent" style="width: 16px; height: 16px;"></i>
+                        <span>Terça a Domingo: 18h às 23:30h</span>
+                    </div>
+                    <div class="flex items-center gap-2 font-medium">
+                        <i data-lucide="map-pin" class="text-accent" style="width: 16px; height: 16px;"></i>
+                        <span>Av. Paulista, 1000 - Jardins, São Paulo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DEPOIMENTOS DE CLIENTES -->
+    <section id="reviews" class="py-24 px-4 md:px-6 max-w-7xl mx-auto scroll-mt-20">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-6 mb-16 text-center sm:text-left">
+            <div>
+                <span class="text-xs font-bold uppercase text-accent tracking-widest block mb-1">Satisfação Elite</span>
+                <h2 class="text-3xl sm:text-4xl font-display font-semibold italic">
+                    O que dizem os Críticos
+                </h2>
+                <p class="text-sm text-muted mt-2">Dê uma olhada na valiosa opinião de renomados mestres e apreciadores locais.</p>
+            </div>
+            <button onclick="openReviewModal()" class="bg-accent/10 border border-accent/20 hover:bg-accent text-accent hover:text-black px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all">
+                Escrever depor depoimento
+            </button>
+        </div>
+
+        <!-- Grid de Depoimentos (Preenchidos dinamicamente por JS para permitir adição) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="testimonials-grid">
+            <!-- Feed de Opiniões carregado de forma interativa por JS -->
+        </div>
+    </section>
+
+    <!-- FOOTER DA MARCA (ALTERE INFOS GERAIS AQUI) -->
+    <footer class="py-12 border-t border-white/5 bg-black/60">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-center">
+            
+            <!-- Logo no Footer -->
+            <div class="text-xl font-display font-bold italic tracking-tighter text-white">
+                PIZZARIA<span class="text-accent">ELITE</span>
+            </div>
+            
+            <!-- ALTERE AQUI: Contas de Redes Sociais do Restaurante -->
+            <div class="flex gap-6 text-muted text-xs md:text-sm">
+                <a href="https://instagram.com" target="_blank" class="hover:text-white transition">Instagram</a>
+                <a href="https://facebook.com" target="_blank" class="hover:text-white transition">Facebook</a>
+                <a href="https://wa.me/5511999999999" target="_blank" class="hover:text-white transition">Suporte WhatsApp</a>
+            </div>
+
+            <!-- Mensagem de Direitos Autorais -->
+            <p class="text-muted text-[11px] md:text-xs">
+                © 2026 Restaurante Pizzaria Elite Ltda. Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- INTERFACE 1: DOCK DO BOTÃO DE CARRINHO/PEDIDO FLUTUANTE DE LUXO -->
+    <div id="floating-cart" class="fixed bottom-6 right-6 z-40 hidden">
+        <button onclick="toggleCartDrawer()" class="p-4 bg-gradient-to-r from-accent to-amber-600 hover:brightness-110 active:scale-95 text-black rounded-full shadow-2xl flex items-center gap-3.5 transition-all outline-none">
+            <div class="relative">
+                <i data-lucide="shopping-bag" style="width: 20px; height: 20px; stroke-width: 2.5px;"></i>
+                <span id="floating-cart-counter" class="absolute -top-3.5 -right-3.5 bg-black text-accent text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center border border-accent">0</span>
+            </div>
+            <span class="text-xs uppercase font-extrabold tracking-wider hidden sm:inline-block">
+                Ver Pedido (R$ <span id="floating-cart-total">0</span>)
+            </span>
+        </button>
+    </div>
+
+    <!-- INTERFACE 2: MODAL CUSTOMIZADOR DE PIZZAS (Interatividade completa) -->
+    <div id="customize-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden transition-opacity duration-300 opacity-0">
+        <div class="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-card border border-white/10 shadow-2xl transform scale-95 transition-transform duration-300" id="modal-container">
+            
+            <!-- Botão fechar -->
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 p-2 text-white bg-black/50 rounded-full hover:bg-white/10 transition">
+                <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <!-- Imagem no Modal -->
+                <div class="relative h-48 md:h-full min-h-[220px] overflow-hidden">
+                    <img id="modal-image" src="" alt="Produto" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-card via-card/10 to-transparent md:bg-gradient-to-r md:from-transparent md:to-card"></div>
+                </div>
+
+                <!-- Detalhes e Customizações -->
+                <div class="p-6 md:p-8 flex flex-col justify-between max-h-[85vh] overflow-y-auto">
+                    <div>
+                        <span id="modal-category-badge" class="bg-accent/20 text-accent px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase mb-3 inline-block">Categoria</span>
+                        <h3 id="modal-title" class="text-2xl md:text-3xl font-display font-semibold text-white tracking-tight">Nome da Pizza</h3>
+                        <p id="modal-description" class="text-muted text-sm mt-2 leading-relaxed">Descrição da pizza...</p>
+
+                        <!-- Opções exclusivas de Pizza (Ocultas para Bebidas) -->
+                        <div id="pizza-only-options" class="mt-6 space-y-5">
+                            
+                            <!-- Seleção de tamanho -->
+                            <div>
+                                <h4 class="text-xs font-semibold uppercase tracking-wider text-accent mb-2">Selecione o Tamanho</h4>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="setPizzaSize('media')" id="size-btn-media" type="button" class="p-3 rounded-xl border text-left transition flex justify-between items-center border-white/5 bg-white/5 text-muted hover:border-white/20">
+                                        <div>
+                                            <span class="block text-sm">Média (30cm)</span>
+                                            <span class="text-xs opacity-80" id="media-price-label">R$ 0</span>
+                                        </div>
+                                        <i data-lucide="check" class="text-accent hidden" style="width: 16px; height: 16px;"></i>
+                                    </button>
+                                    <button onclick="setPizzaSize('grande')" id="size-btn-grande" type="button" class="p-3 rounded-xl border text-left transition flex justify-between items-center border-accent bg-accent/10 text-white font-semibold">
+                                        <div>
+                                            <span class="block text-sm">Grande (35cm)</span>
+                                            <span class="text-xs opacity-80" id="grande-price-label">R$ 0</span>
+                                        </div>
+                                        <i data-lucide="check" class="text-accent" style="width: 16px; height: 16px;"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Seleção de bordas gourmet -->
+                            <div>
+                                <h4 class="text-xs font-semibold uppercase tracking-wider text-accent mb-2">Borda Recheada Gourmet</h4>
+                                <div class="space-y-2">
+                                    <button onclick="setPizzaCrust('tradicional')" id="crust-btn-tradicional" type="button" class="w-full p-3 rounded-xl border text-left transition flex justify-between items-center border-accent bg-accent/10 text-white font-semibold">
+                                        <span class="text-sm">Borda Tradicional Crocante</span>
+                                        <span class="text-xs font-semibold">+R$ 0</span>
+                                    </button>
+                                    <button onclick="setPizzaCrust('catupiry')" id="crust-btn-catupiry" type="button" class="w-full p-3 rounded-xl border text-left transition flex justify-between items-center border-white/5 bg-white/5 text-muted hover:border-white/20">
+                                        <span class="text-sm">Borda Recheada de Catupiry Original</span>
+                                        <span class="text-xs font-semibold text-accent">+R$ 15</span>
+                                    </button>
+                                    <button onclick="setPizzaCrust('gorgonzola')" id="crust-btn-gorgonzola" type="button" class="w-full p-3 rounded-xl border text-left transition flex justify-between items-center border-white/5 bg-white/5 text-muted hover:border-white/20">
+                                        <span class="text-sm">Borda Gourmet de Gorgonzola Dolce</span>
+                                        <span class="text-xs font-semibold text-accent">+R$ 20</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Observações Especiais do Usuário -->
+                        <div class="mt-5">
+                            <h4 class="text-xs font-semibold uppercase tracking-wider text-accent mb-2">Observações Especiais</h4>
+                            <textarea id="modal-notes" rows="2" placeholder="Ex: sem cebola, ponto da massa bem assada, etc." class="w-full bg-white/5 border border-white/5 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-accent/40 transition placeholder:text-zinc-600 resize-none"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Rodapé do Modal (Quantidades e Gravar no Carrinho) -->
+                    <div class="mt-8 pt-4 border-t border-white/5 flex flex-col sm:flex-row gap-4 justify-between items-center">
+                        <div class="flex items-center gap-3 bg-white/5 rounded-full px-4 py-2 border border-white/5">
+                            <button onclick="adjustQuantity(-1)" class="text-white hover:text-accent font-semibold px-2 text-lg focus:outline-none transition">-</button>
+                            <span id="modal-quantity" class="text-white font-bold w-6 text-center text-sm">1</span>
+                            <button onclick="adjustQuantity(1)" class="text-white hover:text-accent font-semibold px-2 text-lg focus:outline-none transition">+</button>
+                        </div>
+
+                        <!-- Botão Adicionar com Preço Atualizado em Tempo Real -->
+                        <button onclick="confirmAddToCart()" class="w-full sm:w-auto bg-gradient-to-r from-accent to-amber-600 text-black font-bold px-8 py-3.5 rounded-full flex justify-between sm:justify-center items-center gap-6 hover:brightness-110 active:scale-95 transition-all shadow-lg" id="add-to-order-btn">
+                            <span class="text-sm uppercase tracking-wider">Adicionar</span>
+                            <span class="text-base text-black/90 font-extrabold font-mono">
+                                R$ <span id="modal-total-display">0</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERFACE 3: GAVETA LATERAL DO CARRINHO (DRAWER) -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 flex justify-end hidden">
+        <!-- Fundo de sobreposição de vidro embaçado -->
+        <div onclick="toggleCartDrawer()" class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 opacity-0" id="drawer-overlay"></div>
+
+        <!-- Bloco do Drawer -->
+        <div class="relative w-full max-w-md h-full bg-card border-l border-white/10 flex flex-col justify-between shadow-2xl z-10 transform translate-x-full transition-transform duration-300 ease-out" id="drawer-container">
+            
+            <!-- Topo do Drawer -->
+            <div class="p-6 border-b border-white/5 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="shopping-bag" class="text-accent" style="width: 22px; height: 22px;"></i>
+                    <h3 id="drawer-header-title" class="text-xl font-display font-semibold text-white tracking-tight">Seu Pedido</h3>
+                    <span id="drawer-badge" class="bg-accent/20 text-accent text-xs font-bold px-2.5 py-1 rounded-full">0</span>
+                </div>
+                <button onclick="toggleCartDrawer()" class="p-1.5 hover:bg-white/5 rounded-full text-muted hover:text-white transition">
+                    <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+                </button>
+            </div>
+
+            <!-- Corpo Principal com Rolo de Itens (Passo de visualização ou preenchimento de endereço) -->
+            <div class="flex-1 overflow-y-auto p-6" id="drawer-body">
+                <!-- Injetado por JS (Lista do Carrinho / Formulário de Endereço) -->
+            </div>
+
+            <!-- Rodapé do Drawer com Totais e Botões de Ação para WhatsApp -->
+            <div class="p-6 border-t border-white/5 bg-black/40 hidden" id="drawer-footer">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-medium text-muted">Subtotal</span>
+                    <span class="text-xl font-bold text-white font-mono">
+                        R$ <span id="drawer-subtotal">0</span>
+                    </span>
+                </div>
+
+                <!-- Botões que mudam de etapa de forma nativa e rápida -->
+                <div id="drawer-actions-step1" class="block">
+                    <button onclick="goToCheckoutStep()" class="w-full bg-accent hover:bg-amber-500 text-black font-extrabold py-3.5 rounded-full flex items-center justify-center gap-2 text-sm uppercase tracking-wider transition-all shadow-lg active:scale-95">
+                        <span>Continuar</span>
+                        <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                    </button>
+                </div>
+
+                <div id="drawer-actions-step2" class="hidden grid grid-cols-2 gap-3">
+                    <button onclick="goToCartStep()" class="p-3.5 rounded-full border border-white/10 text-white hover:bg-white/5 text-xs uppercase tracking-wider font-extrabold text-center transition">
+                        Voltar
+                    </button>
+                    <!-- ALTERE AQUI: O evento dispara a mensagem estruturada -->
+                    <button onclick="submitOrderToWhatsApp()" class="bg-green-500 hover:bg-green-600 text-white font-extrabold py-3.5 rounded-full flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition active:scale-[0.98] shadow-lg shadow-green-500/15">
+                        <i data-lucide="message-square" style="width: 14px; height: 14px;"></i>
+                        <span>Enviar WhatsApp</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERFACE 4: MODAL PARA ESCRITA DE FEEDBACKS -->
+    <div id="review-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden transition-opacity duration-300 opacity-0">
+        <div class="relative w-full max-w-md overflow-hidden rounded-3xl bg-card border border-white/10 shadow-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300" id="review-modal-container">
+            
+            <button onclick="closeReviewModal()" class="absolute top-4 right-4 p-2 text-white bg-black/50 rounded-full hover:bg-white/10 transition">
+                <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+            </button>
+
+            <!-- Telas de Feedback / Sucesso de forma controlada -->
+            <div id="review-form-content">
+                <div class="space-y-1 mb-5">
+                    <span class="text-accent font-semibold tracking-wider text-xs uppercase block">Sua Opinião</span>
+                    <h3 class="text-2xl font-display font-bold text-white italic">Deixe seu Depoimento</h3>
+                    <p class="text-xs text-muted">Sua palavra é de vital importância para mantermos nosso altíssimo padrão.</p>
+                </div>
+
+                <form id="feedback-form" onsubmit="submitReview(event)" class="space-y-4">
+                    <!-- Nota em Estrelas Interativa -->
+                    <div>
+                        <label class="block text-xs font-semibold text-accent uppercase tracking-wider mb-2">Sua Nota</label>
+                        <div class="flex gap-2" id="star-selector">
+                            <button type="button" class="p-1 star-btn" data-star="1" onclick="setFormStars(1)"><i data-lucide="star" class="text-accent fill-accent"></i></button>
+                            <button type="button" class="p-1 star-btn" data-star="2" onclick="setFormStars(2)"><i data-lucide="star" class="text-accent fill-accent"></i></button>
+                            <button type="button" class="p-1 star-btn" data-star="3" onclick="setFormStars(3)"><i data-lucide="star" class="text-accent fill-accent"></i></button>
+                            <button type="button" class="p-1 star-btn" data-star="4" onclick="setFormStars(4)"><i data-lucide="star" class="text-accent fill-accent"></i></button>
+                            <button type="button" class="p-1 star-btn" data-star="5" onclick="setFormStars(5)"><i data-lucide="star" class="text-accent fill-accent"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Nome completo -->
+                    <div>
+                        <label class="block text-xs font-semibold text-accent uppercase tracking-wider mb-1.5">Seu Nome</label>
+                        <input required id="review-name" type="text" placeholder="Ex: Ricardo Mendes" class="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent/40 transition placeholder:text-zinc-600">
+                    </div>
+
+                    <!-- Profissão ou cargo -->
+                    <div>
+                        <label class="block text-xs font-semibold text-accent uppercase tracking-wider mb-1.5">Cargo / Título (Opcional)</label>
+                        <input id="review-role" type="text" placeholder="Ex: Crítico ou Cliente Especial" class="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent/40 transition placeholder:text-zinc-600">
+                    </div>
+
+                    <!-- Texto do depoimento -->
+                    <div>
+                        <label class="block text-xs font-semibold text-accent uppercase tracking-wider mb-1.5">Experiência Gastronômica</label>
+                        <textarea required id="review-text" rows="3" placeholder="Gostou da massa artesanal ou da entrega rápida?" class="w-full bg-white/5 border border-white/5 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-accent/40 transition placeholder:text-zinc-600 resize-none"></textarea>
+                    </div>
+
+                    <!-- CTA de Envio -->
+                    <button type="submit" class="w-full mt-2 bg-accent text-black font-extrabold py-3.5 rounded-full text-sm uppercase tracking-wider hover:bg-amber-500 transition shadow-lg shadow-accent/15">
+                        Publicar Meu Depoimento
+                    </button>
+                </form>
+            </div>
+
+            <!-- Div de Sucesso (Oculta por padrão) -->
+            <div id="review-success-content" class="hidden py-8 text-center flex flex-col items-center justify-center">
+                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-black mb-6">
+                    <i data-lucide="check" style="width: 32px; height: 32px; stroke-width: 3px;"></i>
+                </div>
+                <h3 class="text-2xl font-display font-medium text-white mb-2">Muito Obrigado!</h3>
+                <p class="text-muted text-sm px-4">Seu depoimento foi enviado e adicionado diretamente ao nosso letreiro de avaliações com sucesso.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Principal JavaScript Puro -->
+    <script src="./script.js"></script>
+</body>
+</html>

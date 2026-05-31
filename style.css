@@ -1,0 +1,140 @@
+/* ========================================================== */
+/* ESTILOS CUSTOMIZADOS DA PIZZARIA ELITE                     */
+/* Totalmente compatível com qualquer servidor (como Hostinger)*/
+/* ========================================================== */
+
+/* ---------------------------------------------------------- */
+/* 1. VARIÁVEIS E CONFIGURAÇÕES DE PALETA                     */
+/* Altere as cores abaixo se desejar trocar os tons da marca  */
+/* ---------------------------------------------------------- */
+:root {
+    --color-dark: #050505;       /* Fundo principal super preto */
+    --color-card: #0a0a0a;       /* Cor dos blocos e modais */
+    --color-accent: #D4AF37;     /* Cor dourada principal (Luxury Gold) */
+    --color-muted: #a1a1aa;       /* Cinza para textos explicativos */
+    --font-display: 'Playfair Display', 'Times New Roman', serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ---------------------------------------------------------- */
+/* 2. COMPORTAMENTO PADRÃO DE PÁGINA                          */
+/* ---------------------------------------------------------- */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--color-dark);
+    color: #ffffff;
+    overflow-x: hidden;
+    font-family: var(--font-sans);
+}
+
+/* ---------------------------------------------------------- */
+/* 3. EFEITO GLASSMORPHISM (NAVBARS E MODAIS TRANSPARENTES)   */
+/* ---------------------------------------------------------- */
+.glass {
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ---------------------------------------------------------- */
+/* 4. CARTÕES DO GRID ESTILO BENTO (EFEITO 3D HOVER)          */
+/* ---------------------------------------------------------- */
+.bento-card {
+    background: var(--color-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bento-card:hover {
+    border-color: rgba(212, 175, 55, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.03);
+}
+
+/* Gradiente de fundo escuro para o banner do Hero */
+.hero-gradient {
+    background: linear-gradient(to bottom, rgba(5,5,5,0.2) 0%, rgba(5,5,5,1) 100%);
+}
+
+/* Text balance prevent line cuts */
+.text-balance {
+    text-wrap: balance;
+}
+
+/* ---------------------------------------------------------- */
+/* 5. ANIMAÇÃO DE LETREIRO CORRIDO INFINITO (MARQUEE)         */
+/* Mude o tempo "30s" para acelerar ou desacelerar o movimento */
+/* ---------------------------------------------------------- */
+@keyframes scrollMarquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.animate-scroll {
+    animation: scrollMarquee 32s linear infinite;
+}
+
+.animate-scroll:hover {
+    animation-play-state: paused; /* Pausa o letreiro ao posicionar o mouse */
+}
+
+/* ---------------------------------------------------------- */
+/* 6. ESTILIZAÇÃO E ELEGÂNCIA DO SCROLLBAR                    */
+/* ---------------------------------------------------------- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #222222;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent);
+}
+
+/* ---------------------------------------------------------- */
+/* 7. MODAIS SISTEMAS DE ANIMAÇÃO                             */
+/* ---------------------------------------------------------- */
+.modal-open {
+    overflow: hidden; /* Trava o scroll da página quando um modal está aberto */
+}
+
+/* Controladores para transições limpas via JavaScript */
+.hidden {
+    display: none !important;
+}
+
+/* Ajustes finos adicionais */
+.star-btn {
+    transition: transform 0.2s;
+}
+.star-btn:hover {
+    transform: scale(1.15);
+}
+.star-btn:active {
+    transform: scale(0.9);
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
