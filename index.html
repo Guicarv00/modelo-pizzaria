@@ -72,7 +72,7 @@
 
             <div class="flex items-center gap-4">
                 <!-- Botão Flutuante de Sacola (Indica quantidade de itens) -->
-                <button id="cart-nav-btn" class="relative p-2.5 hover:bg-white/5 rounded-full text-white transition flex items-center justify-center" aria-label="Abrir sacola de compras">
+                <button id="cart-nav-btn" onclick="toggleCartDrawer(); updateCartDOM();" class="relative p-2.5 hover:bg-white/5 rounded-full text-white transition flex items-center justify-center" aria-label="Abrir sacola de compras">
                     <i data-lucide="shopping-bag" class="hover:text-accent transition"></i>
                     <span id="cart-counter" class="absolute -top-1.5 -right-1.5 bg-accent text-black text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
                 </button>
@@ -130,7 +130,7 @@
     <section class="py-8 border-y border-white/5 bg-black/95 overflow-hidden select-none">
         <!-- ALTERE AQUI: Palavras do Letreiro Infinito -->
         <div class="flex gap-12 whitespace-nowrap overflow-hidden">
-            <div class="marquee-wrapper flex shrink-0 gap-16 text-sm sm:text-base md:text-lg font-display italic text-white/30 uppercase tracking-widest">
+            <div class="animate-scroll  flex shrink-0 gap-16 text-sm sm:text-base md:text-lg font-display italic text-white/30 uppercase tracking-widest">
                 <span>⭐ INGREDIENTES PREMIUM IMPORTADOS</span>
                 <span>•</span>
                 <span>⏱️ ENTREGA EXPRESSA EM 30 MINUTOS</span>
@@ -144,7 +144,7 @@
                 <span>🤵 ATENDIMENTO VIP CONCIERGE</span>
             </div>
             <!-- Duplicado para loop infinito fluído -->
-            <div class="marquee-wrapper flex shrink-0 gap-16 text-sm sm:text-base md:text-lg font-display italic text-white/30 uppercase tracking-widest" aria-hidden="true">
+            <div class="animate-scroll  flex shrink-0 gap-16 text-sm sm:text-base md:text-lg font-display italic text-white/30 uppercase tracking-widest" aria-hidden="true">
                 <span>⭐ INGREDIENTES PREMIUM IMPORTADOS</span>
                 <span>•</span>
                 <span>⏱️ ENTREGA EXPRESSA EM 30 MINUTOS</span>
@@ -347,7 +347,7 @@
                 <p class="text-sm text-muted mt-2">Dê uma olhada na valiosa opinião de renomados mestres e apreciadores locais.</p>
             </div>
             <button onclick="openReviewModal()" class="bg-accent/10 border border-accent/20 hover:bg-accent text-accent hover:text-black px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all">
-                Escrever depor depoimento
+                Escrever depoimento
             </button>
         </div>
 
@@ -394,8 +394,8 @@
     </div>
 
     <!-- INTERFACE 2: MODAL CUSTOMIZADOR DE PIZZAS (Interatividade completa) -->
-    <div id="customize-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden transition-opacity duration-300 opacity-0">
-        <div class="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-card border border-white/10 shadow-2xl transform scale-95 transition-transform duration-300" id="modal-container">
+    <div id="customize-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden transition-opacity duration-100 opacity-0">
+        <div class="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-card border border-white/10 shadow-2xl transform scale-95 transition-transform duration-100" id="modal-container">
             
             <!-- Botão fechar -->
             <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 p-2 text-white bg-black/50 rounded-full hover:bg-white/10 transition">

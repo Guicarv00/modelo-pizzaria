@@ -244,6 +244,7 @@ const BTN_CRUST_INACTIVE = "w-full p-3 rounded-xl border text-left transition fl
 document.addEventListener("DOMContentLoaded", () => {
     renderMenu();
     renderTestimonials();
+    updateCartDOM();
     lucide.createIcons();
     setupScrollEffects();
     initGsapAnimations();
@@ -270,10 +271,10 @@ function renderMenu() {
         ` : '';
 
         return `
-            <div onclick="openProductModal('${item.id}')" class="rounded-3xl overflow-hidden bg-black/40 border border-white/5 shadow-inner hover:border-accent/20 transition-all duration-300 flex flex-col justify-between cursor-pointer" style="opacity: 0; transform: translateY(15px); animation: fadeIn 0.4s ease forwards;">
-                <div class="relative h-48 sm:h-56 overflow-hidden">
-                    <img src="${item.image}" alt="${escapeHtml(item.name)}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" loading="lazy">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <div onclick="openProductModal('${item.id}')" class="rounded-3xl overflow-hidden bg-black/40 border border-white/5 shadow-inner hover:border-accent/20 transition-all duration-300 flex flex-col justify-between cursor-pointer hover:scale-[1.02]" style="opacity: 0; transform: translateY(15px); animation: fadeIn 0.4s ease forwards;">
+                <div onclick="openProductModal('${item.id}')" class="relative h-48 sm:h-56 overflow-hidden cursor-pointer">
+                    <img src="${item.image}" alt="${escapeHtml(item.name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
                     <div class="absolute top-4 left-4 flex flex-wrap gap-1.5 z-10">${tagsHtml}</div>
                     ${featuredHtml}
                 </div>
@@ -460,21 +461,33 @@ function updateModalSelectionUI() {
     const btnMedia = document.getElementById('size-btn-media');
     const btnGrande = document.getElementById('size-btn-grande');
 
-    if (modalOptions.size === 'media') {
-        btnMedia.className = BTN_ACTIVE;
-        btnMedia.querySelector('i').classList.remove('hidden');
-        btnGrande.className = BTN_INACTIVE;
-        btnGrande.querySelector('i').classList.add('hidden');
-    } else {
-        btnGrande.className = BTN_ACTIVE;
-        btnGrande.querySelector('i').classList.remove('hidden');
-        btnMedia.className = BTN_INACTIVE;
-        btnMedia.querySelector('i').classList.add('hidden');
+    if (btnMedia && btnGrande) {
+        const iconMedia = btnMedia.querySelector('i');
+        const iconGrande = btnGrande.querySelector('i');
+
+        if (modalOptions.size === 'media') {
+            btnMedia.className = BTN_ACTIVE;
+            if (iconMedia) iconMedia.classList.remove('hidden');
+
+            btnGrande.className = BTN_INACTIVE;
+            if (iconGrande) iconGrande.classList.add('hidden');
+        } else {
+            btnGrande.className = BTN_ACTIVE;
+            if (iconGrande) iconGrande.classList.remove('hidden');
+
+            btnMedia.className = BTN_INACTIVE;
+            if (iconMedia) iconMedia.classList.add('hidden');
+        }
     }
 
     ['tradicional', 'catupiry', 'gorgonzola'].forEach(crustName => {
         const btn = document.getElementById(`crust-btn-${crustName}`);
-        btn.className = modalOptions.crust === crustName ? BTN_CRUST_ACTIVE : BTN_CRUST_INACTIVE;
+
+        if (!btn) return;
+
+        btn.className = modalOptions.crust === crustName
+            ? BTN_CRUST_ACTIVE
+            : BTN_CRUST_INACTIVE;
     });
 }
 
@@ -769,18 +782,12 @@ function goToCartStep() {
 
 // CORREÇÃO: manipula o DOM diretamente, sem re-renderizar tudo (evita loop infinito)
 function onDeliveryMethodChange(method) {
-    const block = document.getElementById('address-block');
-    if (block) {
-        block.classList.toggle('hidden', method === 'pickup');
-    }
+    renderCartDrawerBody();
 }
 
 // CORREÇÃO: manipula o DOM diretamente, sem re-renderizar tudo (evita loop infinito)
 function onPaymentMethodChange(method) {
-    const block = document.getElementById('change-block');
-    if (block) {
-        block.classList.toggle('hidden', method !== 'dinheiro');
-    }
+    renderCartDrawerBody();
 }
 
 // -------------------------------------------------------------
@@ -954,11 +961,7 @@ function initGsapAnimations() {
           .from("section p", { y: 20, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=2.8")
           .from("section a, section button", { y: 15, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power2.out" }, "-=2.3");
 
-        gsap.from(".bento-card", {
-            scrollTrigger: { trigger: "#differentials", start: "top 75%", toggleActions: "play none none none" },
-            scale: 0.95, opacity: 0, duration: 0.8, stagger: 0.15, ease: "back.out(1.5)"
-        });
-
+        
         gsap.from("#about img", {
             scrollTrigger: { trigger: "#about", start: "top 80%" },
             x: -30, opacity: 0, duration: 1, ease: "power2.out"
