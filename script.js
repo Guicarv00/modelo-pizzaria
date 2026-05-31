@@ -288,7 +288,7 @@ function renderMenu() {
                             <span class="text-[10px] text-muted block uppercase tracking-wider">a partir de</span>
                             <span class="text-lg font-bold text-white font-mono">R$ ${item.basePrice}</span>
                         </div>
-                        <button onclick="event.stopPropagation(); openProductModal('${item.id}')" class="bg-white hover:bg-accent text-black px-4 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition flex items-center gap-1 active:scale-95">
+                        <button onclick="event.stopPropagation(); openProductModal('${item.id}')" class="bg-white hover:bg-accent text-black px-2.5 py-1 text-[9px] rounded-full text-xs font-bold tracking-wider uppercase transition flex items-center gap-1 active:scale-95">
                             <i data-lucide="plus" style="width: 14px; height: 14px; stroke-width: 2.5px;"></i>
                             <span>Adicionar</span>
                         </button>
