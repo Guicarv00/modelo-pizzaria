@@ -51,7 +51,7 @@ const MENU_ITEMS = [
         description: 'Receita original de Nápoles: molho San Marzano, anchovas do Mediterrâneo em azeite, alcaparras de Pantelleria, azeitonas pretas e orégano siciliano.',
         basePrice: 65,
         category: 'tradicionais',
-        image: './img/napolitana.jpg',
+        image: './napolitana.jpg',
         tags: ['Autêntica']
     },
     {
